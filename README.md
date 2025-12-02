@@ -1,2 +1,2 @@
 # AdminPortal
-CRUD Operations using .NET8 and Entity Framework Core
+CRUD Operations using .NET 8 and Entity Framework Core
