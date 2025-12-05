@@ -8,4 +8,3 @@
         public decimal Salary { get; set; }
     }
 }
-}

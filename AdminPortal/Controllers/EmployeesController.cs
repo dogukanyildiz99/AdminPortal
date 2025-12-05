@@ -25,6 +25,22 @@ namespace AdminPortal.Controllers
 
             return Ok(allEmployess);
         }
+
+        [HttpGet]
+        [Route("{id:guid}")] // parameter names must be same
+        public IActionResult GetEmployeeById(Guid id)
+        {
+            var employee = dbContext.Employees.Find(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(employee);
+            }
+        }
+
         [HttpPost]
         public IActionResult AddEmployee(AddEmployeeDto addEmployeeDto)
         {
