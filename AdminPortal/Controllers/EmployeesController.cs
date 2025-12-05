@@ -17,7 +17,7 @@ namespace AdminPortal.Controllers
         {
             this.dbContext = dbContext;
         }
-
+        //READ
         [HttpGet]
         public IActionResult GetAllEmployees()
         {
@@ -25,7 +25,7 @@ namespace AdminPortal.Controllers
 
             return Ok(allEmployess);
         }
-
+        //READ
         [HttpGet]
         [Route("{id:guid}")] // parameter names must be same
         public IActionResult GetEmployeeById(Guid id)
@@ -35,12 +35,10 @@ namespace AdminPortal.Controllers
             {
                 return NotFound();
             }
-            else
-            {
-                return Ok(employee);
-            }
-        }
 
+            return Ok(employee);
+        }
+        //CREATE
         [HttpPost]
         public IActionResult AddEmployee(AddEmployeeDto addEmployeeDto)
         {
@@ -56,6 +54,42 @@ namespace AdminPortal.Controllers
             dbContext.SaveChanges();
 
             return Ok(employeeEntity);
+        }
+        //UPDATE
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult UpdateEmployee(Guid id, UpdateEmployeeDto updateEmployeeDto)
+        {
+            var employee = dbContext.Employees.Find(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            
+            employee.Name = updateEmployeeDto.Name;
+            employee.Email = updateEmployeeDto.Email;
+            employee.Phone = updateEmployeeDto.Phone;
+            employee.Salary = updateEmployeeDto.Salary;
+
+            dbContext.SaveChanges();
+
+            return Ok(employee);
+        }
+        //DELETE
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public IActionResult DeleteEmployee(Guid id) 
+        {
+            var employee = dbContext.Employees.Find(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Employees.Remove(employee);
+            dbContext.SaveChanges();
+
+            return Ok(employee);
         }
     }
 }
